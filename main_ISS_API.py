@@ -5,6 +5,7 @@ import datetime as dt
 # Constants
 MY_LAT = 38.880470
 MY_LNG = -77.301872
+DELTA_LOC = 5
 
 
 # Functions
@@ -13,37 +14,41 @@ def utc_to_local(utc_dt):
 
 
 # todo: ISS location class
-# response = requests.get(url="http://api.open-notify.org/iss-now.json")
-# response.raise_for_status()
+def location_iss():
+    api_iss = "http://api.open-notify.org/iss-now.json"
+    response = requests.get(url=api_iss)
+    response.raise_for_status()
 
-# latitude = response.json()["iss_position"]["latitude"]
-# longitude = response.json()["iss_position"]["longitude"]
+    latitude = response.json()["iss_position"]["latitude"]
+    longitude = response.json()["iss_position"]["longitude"]
+    coordinates = (latitude, longitude)
+    return coordinates
 
-# coordinates = (latitude, longitude)
-# print(coordinates)
+
+print(location_iss())
 
 
 # todo: sunset sunrise class
-parameters = {
-    "lat": MY_LAT,
-    "lng": MY_LNG,
-    "formatted": 0,
-}
+# parameters = {
+#     "lat": MY_LAT,
+#     "lng": MY_LNG,
+#     "formatted": 0,
+# }
 
-# Sunset and Sunrise time API: https://sunrise-sunset.org/api
-response = requests.get(
-    url="https://api.sunrise-sunset.org/json", params=parameters)
-response.raise_for_status()
+# # Sunset and Sunrise time API: https://sunrise-sunset.org/api
+# response = requests.get(
+#     url="https://api.sunrise-sunset.org/json", params=parameters)
+# response.raise_for_status()
 
-data = response.json()
-sunrise = data["results"]["sunrise"].split("T")[1].split(":")
-sunset = data["results"]["sunset"].split("T")[1].split(":")
+# data = response.json()
+# sunrise = data["results"]["sunrise"].split("T")[1].split(":")
+# sunset = data["results"]["sunset"].split("T")[1].split(":")
 
-print(sunrise)
-print(sunset)
+# print(sunrise)
+# print(sunset)
 
-time_now = dt.datetime.utcnow()
-print(time_now)
+# time_now = dt.datetime.utcnow()
+# print(time_now)
 
 
 # todo: check ISS is close to my location
