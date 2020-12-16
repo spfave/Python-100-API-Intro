@@ -30,20 +30,28 @@ print(location_iss())
 
 
 # todo: sunset sunrise class
-# parameters = {
-#     "lat": MY_LAT,
-#     "lng": MY_LNG,
-#     "formatted": 0,
-# }
+def sunrise_sunset_time(latitude, longitude):
+    """ Return sunrise and sunset time at specified coordinates (lat, long)
+        Uses Sunset and Sunrise time API: https://sunrise-sunset.org/api
+    """
+    api_sunrise_sunset = "https://api.sunrise-sunset.org/json"
 
-# # Sunset and Sunrise time API: https://sunrise-sunset.org/api
-# response = requests.get(
-#     url="https://api.sunrise-sunset.org/json", params=parameters)
-# response.raise_for_status()
+    parameters = {
+        "lat": latitude,
+        "lng": longitude,
+        "formatted": 0,
+    }
 
-# data = response.json()
-# sunrise = data["results"]["sunrise"].split("T")[1].split(":")
-# sunset = data["results"]["sunset"].split("T")[1].split(":")
+    response = requests.get(url=api_sunrise_sunset, params=parameters)
+    response.raise_for_status()
+
+    data = response.json()
+    sunrise = data["results"]["sunrise"].split("T")[1].split(":")
+    sunset = data["results"]["sunset"].split("T")[1].split(":")
+    return (sunrise, sunset)
+
+
+print(sunrise_sunset_time(MY_LAT, MY_LNG))
 
 # print(sunrise)
 # print(sunset)
