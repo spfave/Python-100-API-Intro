@@ -1,6 +1,8 @@
 import requests
+import smtplib
 import datetime as dt
 import dateutil.parser as dp
+import parameters as pr
 
 
 # Constants
@@ -52,11 +54,19 @@ def time_sunrise_sunset(latitude, longitude):
     return (sunrise, sunset)
 
 
-def funcname(parameter_list):
-    """
-    docstring
-    """
-    pass
+def send_iss_email():
+    subject = "Look Up for the ISS!"
+    message = "Quick, look up at the night sky the ISS is passing by"
+    email_msg = f"Subject: {subject}\n\n\{message}"
+
+    with smtplib.SMTP("smpt.gmail.com") as connection:
+        connection.starttls()
+        connection.login(user=pr.my_email, password=pr.password)
+        connection.sendmail(
+            from_addr=pr.my_email,
+            to_addrs=pr.to_email,
+            msg=email_msg
+        )
 
 
 # Main
@@ -65,9 +75,9 @@ def funcname(parameter_list):
 time_now = dt.datetime.now()
 
 
-# todo: check ISS is close to my location
+# Check ISS is close to my location
 if abs(MY_LAT-iss_lat) < DELTA_LOC and abs(MY_LNG-iss_lng) < DELTA_LOC:
-    # todo: check if it is currently dark
+    # Check if it is currently night
     if time_now.time() < sunrise.time() or time_now.time() > sunset.time():
-        # todo: if both conditions ture send email to self to look up
-        pass
+        # If both conditions are true send email to self to look up
+        send_iss_email()
