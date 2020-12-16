@@ -10,15 +10,12 @@ DELTA_LOC = 5
 
 
 # Functions
-def utc_to_local(utc_dt):
-    return utc_dt.replace(tzinfo=dt.timezone.utc).astimezone(tz=None)
+def utc_to_local(utc_dt, timezone=None):
+    return utc_dt.replace(tzinfo=dt.timezone.utc).astimezone(tz=timezone)
 
 
 def time_json_to_dt(time_json):
     return dp.parse(time_json)
-
-    # time_format = "%Y-%m-%dT%H:%M:%S.%f"
-    # return dt.datetime.strptime(time_json, time_format)
 
 
 def location_iss():
@@ -31,9 +28,6 @@ def location_iss():
     latitude = response.json()["iss_position"]["latitude"]
     longitude = response.json()["iss_position"]["longitude"]
     return (latitude, longitude)
-
-
-# print(location_iss())
 
 
 # todo: sunset sunrise class
@@ -51,20 +45,17 @@ def sunrise_sunset_time(latitude, longitude):
     response.raise_for_status()
 
     data = response.json()
-    sunrise = data["results"]["sunrise"]  # .split("T")[1].split(":")
-    sunset = data["results"]["sunset"]  # .split("T")[1].split(":")
-    print(sunrise, sunset)
+    sunrise_utc = time_json_to_dt(data["results"]["sunrise"])
+    sunset_utc = time_json_to_dt(data["results"]["sunset"])
+    sunrise = utc_to_local(sunrise_utc)
+    sunset = utc_to_local(sunset_utc)
 
-    sunrise_dt = time_json_to_dt(data["results"]["sunrise"])
-    sunset_dt = time_json_to_dt(data["results"]["sunset"])
-    print(sunrise_dt, sunset_dt)
     return (sunrise, sunset)
 
 
+# print(location_iss())
 print(sunrise_sunset_time(MY_LAT, MY_LNG))
 
-# print(sunrise)
-# print(sunset)
 
 time_now = dt.datetime.now()
 print(time_now)
