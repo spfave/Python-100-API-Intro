@@ -30,7 +30,6 @@ def location_iss():
     return (latitude, longitude)
 
 
-# todo: sunset sunrise class
 def sunrise_sunset_time(latitude, longitude):
     """ Return sunrise and sunset time at specified coordinates (lat, long)
         Uses Sunset and Sunrise time API: https://sunrise-sunset.org/api
@@ -53,11 +52,12 @@ def sunrise_sunset_time(latitude, longitude):
     return (sunrise, sunset)
 
 
-# print(location_iss())
-print(sunrise_sunset_time(MY_LAT, MY_LNG))
-
-
+# Main
+iss_location = location_iss()
+time_sun_riseset = sunrise_sunset_time(MY_LAT, MY_LNG)
 time_now = dt.datetime.now()
+
+
 print(time_now)
 
 
