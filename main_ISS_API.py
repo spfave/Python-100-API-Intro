@@ -52,6 +52,13 @@ def time_sunrise_sunset(latitude, longitude):
     return (sunrise, sunset)
 
 
+def funcname(parameter_list):
+    """
+    docstring
+    """
+    pass
+
+
 # Main
 (iss_lat, iss_lng) = location_iss()
 (sunrise, sunset) = time_sunrise_sunset(MY_LAT, MY_LNG)
@@ -59,7 +66,8 @@ time_now = dt.datetime.now()
 
 
 # todo: check ISS is close to my location
-
-
-# todo: check if it is currently dark
-# todo: if both conditions ture send email to self to look up
+if abs(MY_LAT-iss_lat) < DELTA_LOC and abs(MY_LNG-iss_lng) < DELTA_LOC:
+    # todo: check if it is currently dark
+    if time_now.time() < sunrise.time() or time_now.time() > sunset.time():
+        # todo: if both conditions ture send email to self to look up
+        pass
