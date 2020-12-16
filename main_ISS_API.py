@@ -25,12 +25,12 @@ def location_iss():
     response = requests.get(url=api_iss)
     response.raise_for_status()
 
-    latitude = response.json()["iss_position"]["latitude"]
-    longitude = response.json()["iss_position"]["longitude"]
+    latitude = float(response.json()["iss_position"]["latitude"])
+    longitude = float(response.json()["iss_position"]["longitude"])
     return (latitude, longitude)
 
 
-def sunrise_sunset_time(latitude, longitude):
+def time_sunrise_sunset(latitude, longitude):
     """ Return sunrise and sunset time at specified coordinates (lat, long)
         Uses Sunset and Sunrise time API: https://sunrise-sunset.org/api
     """
@@ -53,14 +53,13 @@ def sunrise_sunset_time(latitude, longitude):
 
 
 # Main
-iss_location = location_iss()
-time_sun_riseset = sunrise_sunset_time(MY_LAT, MY_LNG)
+(iss_lat, iss_lng) = location_iss()
+(sunrise, sunset) = time_sunrise_sunset(MY_LAT, MY_LNG)
 time_now = dt.datetime.now()
 
 
-print(time_now)
-
-
 # todo: check ISS is close to my location
+
+
 # todo: check if it is currently dark
 # todo: if both conditions ture send email to self to look up
