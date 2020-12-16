@@ -13,8 +13,9 @@ def utc_to_local(utc_dt):
     return utc_dt.replace(tzinfo=dt.timezone.utc).astimezone(tz=None)
 
 
-# todo: ISS location class
 def location_iss():
+    """ Return coordinate (lat, long) location of International Space Station """
+
     api_iss = "http://api.open-notify.org/iss-now.json"
     response = requests.get(url=api_iss)
     response.raise_for_status()
